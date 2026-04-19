@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aysnc Wheather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Async Wheather Tracker</h1>
+    <div>
+        <div class="left-container">
+            <div id="search-main-container">
+
+                <h3>Search City Wheather</h3>
+                <form action="">
+                    <label for="city"> Search City:</label>
+                    <input placeholder="Enter City Name" type="text" name="city" id="city">
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div id="history-main-container">
+
+                <h3>Search History</h3>
+
+                <div id="Search-history">
+                    <button>Delhi</button>
+                    <button>Mumbai</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="right-container">
+
+            <h3>Wheather Info</h3>
+
+            <div id="wheather-data"></div>
+
+        </div>
+    </div>
+
+    <script>
+        "https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric"
+
+        let API_KEY = "1a761d3bb408836cd1af3641ce1604c9";
+
+        let form = document.querySelector("form")
+        let city = document.getElementById("city")
+        let wheather = document.querySelector("#wheather-data")
+
+        async function fetchweather(city){
+
+            let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+
+           
+            let data = await response.json()
+           
+            let card = document.createElement("div")
+            card.innerHTML = `<h4>City : ${data.city}</h4>
+                              <h4>Temp : ${data.main.temp}</h4>
+                              <h4>Humidity : ${data.humidity}</h4>
+                              <h4>Wind: ${data.wind.speed}</h4>`
+                              
+            wheather.innerHTML = ""                  
+
+            
+            wheather.append(card)
+                
+        }
+
+            
+        form.addEventListener("submit",(event)=>{
+            event.preventDefault()
+            fetchweather(city.value)
+        })
+
+
+    </script>
+
+</body>
+
+</html>
